@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import LoginForm from "./LoginForm"; 
 import RegisterForm from "./RegisterForm"; 
 import { useState } from "react";
