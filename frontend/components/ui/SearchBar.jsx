@@ -1,13 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUser, faSearch, faUsers } from "@fortawesome/free-solid-svg-icons";
-
-export default function Icons() {
+export default function SearchBar() {
   return (
-    <div className="flex gap-4 text-3xl text-blue-500">
-      <FontAwesomeIcon icon={faHome} />
-      <FontAwesomeIcon icon={faUser} />
-      <FontAwesomeIcon icon={faSearch} />
-      <FontAwesomeIcon icon={faUsers} />
+    <div className="w-full my-2 ">
+      <input
+        type="text"
+        placeholder="Search..."
+        className="w-full bg-green-100 text-black px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
     </div>
   );
 }

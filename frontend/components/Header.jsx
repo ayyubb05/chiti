@@ -14,14 +14,14 @@ export default function Header() {
           height={24}
           className="mr-2"
         />
-        <h1 className="font-bold">
+        <h1 className="text-black text-lg font-bold">
           CHITI
         </h1>
       </div>
 
       {/* Right-aligned button */}
       <div className="ml-auto px-2">
-        <Link href="/groups">
+        <Link href="/">
           <div className="w-10 h-8 bg-green-400 hover:bg-green-500 rounded-full flex 
             items-center justify-center">      
             <FontAwesomeIcon icon={faBars} className="text-white" />

@@ -34,14 +34,14 @@ const verifyPassword = async (password, hash) => {
 const authenticateUser = (req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
   if (!token) {
-    return res.status(401).send({ error: "Authentication required" });
+    return res.status(401).json({ error: "Authentication required" });
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // Or your secret
     req.user = decoded;
     next();
   } catch (e) {
-    res.status(401).send({ error: "Invalid token" });
+    res.status(401).json({ error: "Invalid token" });
   }
 };
 

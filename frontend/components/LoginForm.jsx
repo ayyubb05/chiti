@@ -6,7 +6,6 @@ export default function LoginForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +18,6 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); 
-    setSuccess(false);
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
@@ -31,9 +29,8 @@ export default function LoginForm() {
       if (!response.ok) throw new Error("Failed to login.");
 
       const data = await response.json();
-      console.log("Login Success:", data); // Debugging output
-
-      setSuccess(true);
+      localStorage.setItem("token", data.token); // Correct localStorage usage
+      
       router.push("/dashboard"); // Redirect on success
     } catch (error) {
       setError("An error occurred while logging in.");

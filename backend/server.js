@@ -19,15 +19,29 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+
+// Logging API requests
+app.use((req, res, next) => {
+  const start = Date.now(); // Track request time
+  
+  res.on("finish", () => { // Fires when the response is sent
+    const duration = Date.now() - start; // Calculate time taken
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - Status: ${res.statusCode} -- (${duration}ms)`);
+  });
+
+  next();
+});
+
 // Database Connection
 sequelize
   .authenticate()
   .then(() => console.log("Database connected successfully."))
   .catch((err) => console.error("Database connection error:", err));
 
+
 // Routes
 const credRoutes = require("./routes/credentials");
-app.use("/api/credentials", credRoutes);
+app.use("/api/auth", credRoutes);
 
 const profileRoutes = require("./routes/profile");
 app.use("/api/profile", profileRoutes);

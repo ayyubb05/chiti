@@ -1,7 +1,14 @@
-import Header from "../components/Header";
-import Navbar from "../components/Navbar";
+"use client";
+import Header from "@/components/Header";
+import Navbar from "@/components/Navbar";
+import SlideUpPanel from "@/components/SlideUpPanel";
+import NotificationManager from '@/util/NotificationManager';
+import { usePathname } from "next/navigation";
 
 export default function PhoneScreen({ children }) {
+  const pathname = usePathname();
+  const hideLayout = pathname === "/";
+
   return (
     <div className="relative w-full min-h-screen flex justify-center items-center bg-gray-200">
 
@@ -13,19 +20,32 @@ export default function PhoneScreen({ children }) {
         <div className="flex flex-col w-[96%] h-[98%] border-2 border-gray-600 rounded-[30px] overflow-hidden">
           
           {/* Header */}
-          <div className="flex-shrink-0">
-            <Header/>
-          </div>
+          {!hideLayout &&
+            <div className="flex-shrink-0">
+              <Header/>
+            </div>
+          }
 
           {/* Body */}
-          <div className="flex-grow overflow-auto">
+          <div className="flex-grow overflow-auto bg-green-100">
+            {/*<NotificationManager />*/}
             {children}
           </div>
 
-          {/* Footer */}
+          {/* Navbar */}
+          {!hideLayout &&
           <div className="flex-shrink-0">
             <Navbar/>
           </div>
+          }
+
+          {/* Sign In Panel */}
+          {hideLayout &&
+          <div className="flex-shrink-0">
+            <SlideUpPanel/>
+          </div>
+          }
+
 
         </div>
 

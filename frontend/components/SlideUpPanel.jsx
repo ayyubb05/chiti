@@ -11,22 +11,22 @@ export default function SlideUpPanel() {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 w-full">
-      {/* Sliding Panel */}
-          <i className="fa-solid fa-user"></i>
+    <div 
+      className="py-3 px-5 bg-green-300 flex items-center justify-between w-full max-w-md mx-auto ">
       <div
-        className={`w-full bg-green-700 hover:bg-green-800 border-2 border-gray-600
+        className={`relative w-full bg-green-700 border-2 border-gray-600
                     rounded-[28px] text-white p-4 text-center transition-all duration-300 
                     ${isOpen ? "h-[512px]" : "h-[56px]"}`}
       >
-        <button onClick={togglePanel}>
+        <button className="absolute top-0 left-0 w-full hover:bg-green-800 
+                    rounded-[28px] h-[56px] " onClick={togglePanel}>
 
           <p className="font-bold">Sign In / Up</p>
         </button>
 
         {/* Make the SignInPanel scrollable when open */}
         {isOpen && (
-          <div className="h-full overflow-y-auto pb-4">
+          <div className="h-full overflow-y-auto pb-4 pt-[32px]">
             <SignInPanel />
           </div>
         )}

@@ -19,6 +19,9 @@ export default function Icons() {
 		{/*// Add Symbol */}
 		<i class="fa fa-plus-square" aria-hidden="true"></i>
 
+		{/*// Search Symbol */}
+		<i class="fa fa-search" aria-hidden="true"></i>
+		
 		</>
 	);
 }
