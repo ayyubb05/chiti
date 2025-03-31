@@ -3,17 +3,6 @@ const router = express.Router();
 const pc = require("../controllers/profileController");
 const { authenticateUser } = require("../services/auth");
 
-////
-// Profile Info
-////
-
-// Fetch the profile of the current user
-router.get("/", authenticateUser, pc.getCurrentUser);
-// Fetch a single user by their ID
-router.get("/user/:id", pc.getUserByID);
-// Update user profile details 
-router.patch("/user/:id", authenticateUser, pc.updateProfileInfo);
-
 
 ////
 // Group Management
@@ -65,6 +54,17 @@ router.delete("/friends/:friend_id", authenticateUser, pc.removeFriend);
 router.put("/password", authenticateUser, pc.updatePassword);
 // Deactivate account
 router.delete("/deactivate", authenticateUser, pc.deactivateAccount);
+
+////
+// Profile Info
+////
+
+// Fetch the profile of the current user
+router.get("/", authenticateUser, pc.getCurrentUser);
+// Fetch a single user by their ID
+router.get("/:id", pc.getUserByID);
+// Update user profile details 
+router.patch("/:id", authenticateUser, pc.updateProfileInfo);
 
 
 module.exports = router;

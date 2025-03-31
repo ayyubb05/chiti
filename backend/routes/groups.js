@@ -27,7 +27,7 @@ router.delete("/:group_id/members/:member_id", authenticateUser, gc.removeMember
 // Membership Management
 ////
 
-router.get("/:group_id/members", authenticateUser, authorizeAdmin, gc.getMembers);
+router.get("/:group_id/members", authenticateUser, gc.getMembers);
 // Submit a join request
 router.post("/:group_id/join-requests", authenticateUser, gc.submitJoinRequest);
 // Cancel a join request

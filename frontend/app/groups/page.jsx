@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faSearch, faPlus, faLevelUp } from "@fortawesome/free-solid-svg-icons";
 import GroupCard from "@/components/GroupCard";
 import SearchBar from "@/components/ui/SearchBar";
 
@@ -107,7 +107,7 @@ export default function Home() {
               <button 
                 onClick={() => goToGroup(group.id)}
                 className="w-full bg-green-600 text-white text-xs p-3 rounded-b hover:bg-green-700">
-                <p><FontAwesomeIcon icon={faPlus} /> Request to Join Group</p>
+                <p><FontAwesomeIcon icon={faLevelUp} /> View Group</p>
               </button>
             </li>
           ))}

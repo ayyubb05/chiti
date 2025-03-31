@@ -84,11 +84,17 @@ async function registerUser (req, res) {
   }
 }
 
+async function logoutUser (req, res) {
+  res.clearCookie("auth_token", { httpOnly: true, secure: true, sameSite: "Strict" });
+  return res.status(200).json({ message: "Logged out successfully" });
+}
+
 // Login route
 router.post("/login", loginUser);
 // Register route
 router.post("/register", registerUser);
+// Logout route
+router.post("/logout", logoutUser);
 
-;
 
 module.exports = router;
