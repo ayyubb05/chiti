@@ -22,6 +22,9 @@ export default function Icons() {
 		{/*// Search Symbol */}
 		<i class="fa fa-search" aria-hidden="true"></i>
 		
+		{/*// Settings Symbol */}
+		<i class="fa fa-cog" aria-hidden="true"></i>
+
 		</>
 	);
 }

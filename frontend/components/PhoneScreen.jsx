@@ -13,7 +13,7 @@ export default function PhoneScreen({ children }) {
     <div className="relative w-full min-h-screen flex justify-center items-center bg-gray-200">
 
       {/* Outer Phone Frame */}
-      <div className="relative w-[320px] h-[600px] bg-white border-4 border-gray-800 
+      <div className="relative w-[430px] h-[932px] bg-white border-4 border-gray-800 
                       rounded-[40px] shadow-lg flex flex-col items-center justify-center">
 
         {/* Inner Screen Outline (This will house the scrollable content) */}

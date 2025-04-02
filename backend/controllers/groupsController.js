@@ -18,6 +18,7 @@ const {
 // Import admin functions
 const {
   createGroup,
+  deleteGroup,
   getActiveJoinRequests,
   updateJoinRequestStatus,
   removeMember,
@@ -49,6 +50,7 @@ const controller = {
   leaveGroup,
 
   createGroup,
+  deleteGroup,
   getActiveJoinRequests,
   updateJoinRequestStatus,
   removeMember,

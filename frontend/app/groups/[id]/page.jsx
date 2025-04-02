@@ -3,7 +3,7 @@
 import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEdit, faDollar, faEye, faEyeSlash, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faEdit, faDollar, faEye, faEyeSlash, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
 import MembersList from "@/components/MembersList"; // Import MembersList component
 
 export default function Home() {
@@ -90,6 +90,32 @@ export default function Home() {
     }
   };
 
+  const deleteGroup = async () => {
+    if (!group_id || !token) return;
+
+    if (!window.confirm("Are you sure you want to delete this group? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/groups/${group_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to delete group.");
+
+      // Redirect user to the groups list after successful deletion
+      router.push("/groups");
+      router.refresh();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   useEffect(() => {
     fetchGroup();
   }, [group_id]);
@@ -105,6 +131,11 @@ export default function Home() {
           <div className="flex space-x-2">
             <button className="w-10 h-8 bg-green-400 hover:bg-green-500 rounded-full flex items-center justify-center text-white">
               <FontAwesomeIcon icon={faEdit} />
+            </button>
+            <button 
+              onClick={deleteGroup}
+              className="w-10 h-8 bg-green-400 hover:bg-green-500 rounded-full flex items-center justify-center text-white">
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>
         </div>
@@ -123,12 +154,13 @@ export default function Home() {
           </p>
           <p>Payment Due: {groupData.payment_deadline}th</p>
           <p>Payout Day: {groupData.payout_day}th</p>
-
+          <p>Visibility:
           {groupData.visibility === "public" ? (
             <FontAwesomeIcon icon={faEye} />
           ) : (
             <FontAwesomeIcon icon={faEyeSlash} />
           )}
+          </p>
         </div>
 
         <div className="w-full max-w-md mt-6">

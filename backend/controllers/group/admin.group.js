@@ -214,9 +214,36 @@ async function removeMember(req, res) {
   }
 }
 
+async function deleteGroup(req, res) {
+  const { group_id } = req.params;
+  const user_id = req.user.id; // The user making the request
+
+  try {
+    // Ensure the group exists
+    const group = await Group.findByPk(group_id);
+    if (!group) {
+      return res.status(404).json({ error: "Group not found." });
+    }
+
+    // Check if the requesting user is the admin
+    if (group.admin_id !== user_id) {
+      return res.status(403).json({ error: "You do not have permission to delete this group." });
+    }
+
+    // Delete the group
+    await group.destroy();
+    return res.status(200).json({ message: "Group deleted successfully." });
+
+  } catch (error) {
+    console.error("Error deleting group:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 
 module.exports = {
   createGroup,
+  deleteGroup,
   getActiveJoinRequests,
   updateJoinRequestStatus,
   removeMember,

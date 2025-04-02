@@ -64,6 +64,8 @@ router.get("/", authenticateUser, gc.getAllGroups);
 router.post("/", authenticateUser, gc.createGroup);
 // Fetch detailed info about a specific group
 router.get("/:group_id", authenticateUser, gc.getGroupById);
+// Delete group
+router.delete("/:group_id", authenticateUser, authorizeAdmin, gc.deleteGroup);
 // Browse public groups
 router.get("/public", gc.getPublicGroups);
 // Manage group details and visibility (e.g., name, description, rules, visibility)

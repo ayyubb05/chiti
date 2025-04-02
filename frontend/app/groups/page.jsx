@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faSearch, faPlus, faLevelUp } from "@fortawesome/free-solid-svg-icons";
 import GroupCard from "@/components/GroupCard";
 import SearchBar from "@/components/ui/SearchBar";
+import CreateGroupForm from "@/components/CreateGroupForm";
 
 export default function Home() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export default function Home() {
         </div>
 
         {searchVisibility && <SearchBar/>}
-        {createGroupVisibility && <SearchBar/>}
+        {createGroupVisibility && <CreateGroupForm/>}
       </div>
       <div className="p-2">
         {loading && <p className="text-white">Loading groups...</p>}
