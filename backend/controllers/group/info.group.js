@@ -39,12 +39,21 @@ async function getAllGroups(req, res) {
       ]
     });
 
-    return res.status(200).json(groups);
+    // Fetch member count for each group and append to objects
+    const groupsWithMemberCount = await Promise.all(groups.map(async (group) => {
+      const member_count = await GroupMember.count({
+        where: { group_id: group.id }
+      });
+      return { ...group.toJSON(), member_count: member_count };
+    }));
+
+    return res.status(200).json(groupsWithMemberCount);
   } catch (error) {
     console.error("Error fetching groups:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
 
 // Fetch detailed info about a specific group
 async function getGroupById(req, res) {
