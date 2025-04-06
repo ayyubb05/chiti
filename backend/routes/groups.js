@@ -58,16 +58,16 @@ router.post("/:group_id/chat", authenticateUser, gc.postGroupChatMessage);
 // Group Information & Discovery
 ////
 
+// Browse public groups
+router.get("/public", authenticateUser, gc.getPublicGroups);
 // Fetch all groups (public and/or private groups user is part of)
-router.get("/", authenticateUser, gc.getAllGroups);
+router.get("/", authenticateUser, gc.getUserGroups);
 // Create a new group
 router.post("/", authenticateUser, gc.createGroup);
 // Fetch detailed info about a specific group
 router.get("/:group_id", authenticateUser, gc.getGroupById);
 // Delete group
 router.delete("/:group_id", authenticateUser, authorizeAdmin, gc.deleteGroup);
-// Browse public groups
-router.get("/public", gc.getPublicGroups);
 // Manage group details and visibility (e.g., name, description, rules, visibility)
 router.patch("/:group_id", authenticateUser, authorizeAdmin, gc.updateGroupSettings);
 

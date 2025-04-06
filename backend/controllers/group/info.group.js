@@ -1,4 +1,3 @@
-// Import necessary models
 const { Group, User, JoinRequest, GroupMember, sequelize } = require('../../models');
 const { Op } = require('sequelize');
 
@@ -6,8 +5,7 @@ const { Op } = require('sequelize');
 // Group Information & Discovery
 ////
 
-// Fetch all groups (public and/or private groups user is part of)
-async function getAllGroups(req, res) {
+async function getGroups(req, res, condition) {
   const userId = req.user.id;
 
   try {
@@ -20,10 +18,7 @@ async function getAllGroups(req, res) {
         }
       ],
       where: {
-        [Op.or]: [
-          { visibility: 'public' },  // Public groups
-          { '$GroupMembers.user_id$': userId } // Private groups user is in
-        ]
+        ...condition // ✅ Fix: Spread condition here
       },
       attributes: [
         'id', 
@@ -44,7 +39,7 @@ async function getAllGroups(req, res) {
       const member_count = await GroupMember.count({
         where: { group_id: group.id }
       });
-      return { ...group.toJSON(), member_count: member_count };
+      return { ...group.toJSON(), member_count };
     }));
 
     return res.status(200).json(groupsWithMemberCount);
@@ -52,6 +47,26 @@ async function getAllGroups(req, res) {
     console.error("Error fetching groups:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
+}
+
+
+// Fetch all groups (public and/or private groups user is part of)
+async function getUserGroups(req, res) {
+  const userId = req.user.id;
+  const condition = { '$GroupMembers.user_id$': userId };
+  return getGroups(req, res, condition);
+}
+
+
+async function getPublicGroups(req, res) {
+  const userId = req.user.id;
+  const condition = {
+    [Op.or]: [
+      { visibility: 'public' },
+      { '$GroupMembers.user_id$': userId }
+    ]
+  };
+  return getGroups(req, res, condition);
 }
 
 
@@ -67,7 +82,7 @@ async function getGroupById(req, res) {
         {
           model: GroupMember,
           where: { user_id: userId },
-          required: false // Allow fetching public groups or groups user is part of
+          required: false
         }
       ],
       attributes: [
@@ -95,33 +110,8 @@ async function getGroupById(req, res) {
   }
 }
 
-async function getPublicGroups(req, res) {
-  try {
-    const publicGroups = await Group.findAll({
-      where: { visibility: 'public' },
-      attributes: [
-        'id', 
-        'name', 
-        'description', 
-        'monthly_fee', 
-        'payment_deadline', 
-        'group_size', 
-        'payout_day', 
-        'admin_id', 
-        'created_at'
-      ]
-    });
-
-    return res.json(publicGroups);
-  } catch (error) {
-    console.error("Error fetching public groups:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-}
-
-
 module.exports = {
-  getAllGroups,
+  getUserGroups,
   getGroupById,
   getPublicGroups,
 };

@@ -2,7 +2,7 @@
 
 // Import info functions
 const {
-  getAllGroups,
+  getUserGroups,
   getGroupById,
   getPublicGroups,
 } = require("./group/info.group");
@@ -40,7 +40,7 @@ const {
 
 // Export all controller functions
 const controller = {
-  getAllGroups,
+  getUserGroups,
   getGroupById,
   getPublicGroups,
 
