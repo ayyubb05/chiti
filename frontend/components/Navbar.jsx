@@ -5,7 +5,7 @@ import { faHome, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 export default function Navbar() {
   return (
 		<div 
-			className="py-3 px-5 bg-green-300 flex items-center justify-between w-full max-w-md mx-auto">
+			className="py-3 px-16 bg-green-300 flex items-center justify-between w-full max-w-md mx-auto">
 
 		  <Link href="/dashboard" 
 		  	className="bg-green-400 hover:bg-green-500 rounded-full

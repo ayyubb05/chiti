@@ -10,10 +10,9 @@ import { fetchGroups } from "@/util/GroupsManager";
 export default function GroupList() {
 	const router = useRouter();
 	const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
 	const [ groups, setGroups ] = useState([]);
-  const [ loading, setLoading ] = useState(true);
-  const [ error, setError ] = useState("");
+	const [ loading, setLoading ] = useState(true);
+	const [ error, setError ] = useState("");
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -21,15 +20,14 @@ export default function GroupList() {
 				if (!token) throw new Error("No token found.");
 				setGroups(await fetchGroups(token));
 			} catch (err) {
-        setError("Failed to fetch groups.");
+				setError(`Failed to fetch groups. ${err}`);
 			} finally {
 				setLoading(false);
 			}
 		};
 
 		fetchData();
-	},[]);
-
+	},[token]);
 
 	const goToGroup = (group_id) => {
 		router.push(`/groups/${group_id}`);
