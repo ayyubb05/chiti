@@ -1,4 +1,5 @@
 require("dotenv").config();
+require('./services/schedulers/updateCycleProgress');
 const express = require("express");
 const cookieParser = require("cookie-parser"); // Required to parse cookies
 const cors = require("cors");

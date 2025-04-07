@@ -54,6 +54,20 @@ router.get("/:group_id/chat", authenticateUser, gc.getGroupChat);
 // Post a new message to group chat
 router.post("/:group_id/chat", authenticateUser, gc.postGroupChatMessage);
 
+
+
+////
+// Group Cycle
+////
+
+// Fetch group cycle info
+router.get("/:group_id/cycle", authenticateUser, gc.getCycleInfo);
+// Create a new group cycle
+router.post("/:group_id/cycle", authenticateUser, gc.createGroupCycle);
+// Start the group cycle
+router.patch("/:group_id/cycle", authenticateUser, gc.startCycle);
+
+
 ////
 // Group Information & Discovery
 ////

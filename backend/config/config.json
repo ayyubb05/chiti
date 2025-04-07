@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "chiti_admin",
+    "password": "securepassword",
+    "database": "chiti_db",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "chiti_admin",
+    "password": "securepassword",
+    "database": "chiti_db",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "your_db_username",
+    "password": "your_db_password",
+    "database": "chiti_db_prod",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

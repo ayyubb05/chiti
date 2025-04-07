@@ -25,42 +25,10 @@ Group.init(
         this.setDataValue('monthly_fee', parseFloat(value));
       }
     },
-    payment_deadline: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        min: 1,
-        max: 28,
-      },
-    },
-    group_size: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        isIn: [[3, 4, 6, 12]], 
-      },
-    },
     visibility: {
       type: DataTypes.ENUM("public", "private"),
       allowNull: false,
       defaultValue: "private", // Private by default for added security
-    },
-    payout_day: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        min: 1,
-        max: 28, // Ensures payout happens within valid calendar dates
-      },
-    },
-    admin_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "users",
-        key: "id",
-      },
-      onDelete: "CASCADE",
     },
     payout_order: {
       type: DataTypes.JSON,
@@ -74,6 +42,15 @@ Group.init(
     notification_preferences: {
       type: DataTypes.JSON,
       allowNull: true, // Enables flexible notification rules for the group
+    },
+    admin_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
+      onDelete: "CASCADE",
     }
   },
   {

@@ -1,46 +1,50 @@
-const { Group, User, JoinRequest, GroupMember, sequelize } = require('../../models');
+const { Group, GroupMember, sequelize } = require('../../models');
 const { Op } = require('sequelize');
 
-////
-// Group Information & Discovery
-////
-
-async function getGroups(req, res, condition) {
+// Helper function to fetch groups based on a condition
+async function fetchGroups(req, res, condition, isSingleGroup = false) {
   const userId = req.user.id;
 
+  const baseAttributes = [
+    'id', 
+    'name', 
+    'description', 
+    'visibility', 
+    'monthly_fee', 
+    'group_size', 
+    'admin_id', 
+    'created_at'
+  ];
+
+  const baseInclude = [
+    {
+      model: GroupMember,
+      where: { user_id: userId },
+      required: false, // Include groups user is in AND public groups
+    }
+  ];
+
   try {
-    const groups = await Group.findAll({
-      include: [
-        {
-          model: GroupMember,
-          where: { user_id: userId },
-          required: false, // Include groups user is in AND public groups
-        }
-      ],
-      where: {
-        ...condition // ✅ Fix: Spread condition here
-      },
-      attributes: [
-        'id', 
-        'name', 
-        'description', 
-        'visibility', 
-        'monthly_fee', 
-        'payment_deadline', 
-        'group_size', 
-        'payout_day', 
-        'admin_id', 
-        'created_at'
-      ]
-    });
+    const groups = isSingleGroup
+      ? await Group.findOne({
+          where: { id: condition.group_id },
+          include: baseInclude,
+          attributes: baseAttributes
+        })
+      : await Group.findAll({
+          include: baseInclude,
+          where: { ...condition },
+          attributes: baseAttributes
+        });
+
+    if (isSingleGroup && !groups) {
+      return res.status(404).json({ error: "Group not found or access denied." });
+    }
 
     // Fetch member count for each group and append to objects
-    const groupsWithMemberCount = await Promise.all(groups.map(async (group) => {
-      const member_count = await GroupMember.count({
-        where: { group_id: group.id }
-      });
-      return { ...group.toJSON(), member_count };
-    }));
+    const groupsWithMemberCount = isSingleGroup
+      ? { ...groups.toJSON(), member_count: await getGroupMemberCount(groups.id) }
+      : await appendMemberCount(groups);
 
     return res.status(200).json(groupsWithMemberCount);
   } catch (error) {
@@ -49,15 +53,29 @@ async function getGroups(req, res, condition) {
   }
 }
 
+// Helper function to fetch the member count for a group
+async function getGroupMemberCount(groupId) {
+  return await GroupMember.count({
+    where: { group_id: groupId }
+  });
+}
 
-// Fetch all groups (public and/or private groups user is part of)
+// Helper function to append member count to each group
+async function appendMemberCount(groups) {
+  return Promise.all(groups.map(async (group) => {
+    const member_count = await getGroupMemberCount(group.id);
+    return { ...group.toJSON(), member_count };
+  }));
+}
+
+// Fetch all groups user is part of
 async function getUserGroups(req, res) {
   const userId = req.user.id;
   const condition = { '$GroupMembers.user_id$': userId };
-  return getGroups(req, res, condition);
+  return fetchGroups(req, res, condition);
 }
 
-
+// Fetch all groups (public and/or private groups user is part of)
 async function getPublicGroups(req, res) {
   const userId = req.user.id;
   const condition = {
@@ -66,48 +84,13 @@ async function getPublicGroups(req, res) {
       { '$GroupMembers.user_id$': userId }
     ]
   };
-  return getGroups(req, res, condition);
+  return fetchGroups(req, res, condition);
 }
-
 
 // Fetch detailed info about a specific group
 async function getGroupById(req, res) {
   const { group_id } = req.params;
-  const userId = req.user.id;
-
-  try {
-    const group = await Group.findOne({
-      where: { id: group_id },
-      include: [
-        {
-          model: GroupMember,
-          where: { user_id: userId },
-          required: false
-        }
-      ],
-      attributes: [
-        'id',
-        'name',
-        'description',
-        'visibility',
-        'monthly_fee',
-        'payment_deadline',
-        'group_size',
-        'payout_day',
-        'admin_id',
-        'created_at'
-      ]
-    });
-
-    if (!group) {
-      return res.status(404).json({ error: "Group not found or access denied." });
-    }
-
-    return res.status(200).json(group);
-  } catch (error) {
-    console.error("Error fetching group details:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
+  return fetchGroups(req, res, { group_id }, true);
 }
 
 module.exports = {

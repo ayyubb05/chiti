@@ -37,6 +37,13 @@ const {
   postGroupChatMessage,
 } = require("./group/chat.group");
 
+// Import cycle functions
+const {
+  startCycle,
+  getCycleInfo,
+  createGroupCycle,
+} = require("./group/cycle.group");
+
 
 // Export all controller functions
 const controller = {
@@ -61,6 +68,11 @@ const controller = {
 
   getGroupChat,
   postGroupChatMessage,
+
+  startCycle,
+  getCycleInfo,
+  createGroupCycle,
+
 };
 
 module.exports = controller;

@@ -5,6 +5,15 @@ const { Group, User, JoinRequest, GroupMember, sequelize } = require('../../mode
 // Payment & Financial Management
 ////
 
+async function getNextPaymentDetails(req, res) {
+  // TODO:
+  // Get group details
+  // Get members details
+  // ...
+  return res.status(500).json({ error: "Internal Server Error" });
+}
+
+
 // View group payment details (e.g., next payment date, balance)
 async function getGroupFinance(req, res) {
   const { group_id } = req.params;
@@ -73,4 +82,5 @@ async function updateGroupFinance(req, res) {
 module.exports = {
   getGroupFinance,
   updateGroupFinance,
+  getNextPaymentDetails,
 };
