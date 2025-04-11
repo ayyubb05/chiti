@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-import TitleCard from "../components/TitleCard";
+import SplashScreen from "@/components/SplashScreen";
 
 export default function Home() {
   return (
     <>
-      <TitleCard/>
+      <SplashScreen/>
     </>
   );
 }
