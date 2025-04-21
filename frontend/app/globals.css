@@ -22,10 +22,10 @@ html, body {
   --search-bg: hsl(138,28%,12%);
   --search-text: hsl(135,6%,86%);
 
-
   --title-text: hsl(48,68%,85%);   /* Replace with your actual text color */
-  --chiti-text: hsl(120, 100%, 96%);   /* Replace with your actual text color */
-
+  --chiti-text: hsl(48,68%,93%);   /* Replace with your actual text color */
+  --chiti-green: hsl(153,45%,9%);
+  --chiti-bg: hsl(48,69%,95%);   /* Replace with your actual text color */
 }
 
 body {

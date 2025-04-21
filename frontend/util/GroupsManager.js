@@ -22,8 +22,7 @@ async function fetchMyGroups (token) {
   return groups;
 };
 
-
-async function fetchGroupByID (token, group_id) {
+async function fetchGroupById (token, group_id) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/groups/${group_id}`, {
     method: "GET",
     headers: {
@@ -35,19 +34,6 @@ async function fetchGroupByID (token, group_id) {
   return group;
 };
 
-async function fetchUserByID (token, user_id) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profile/${user_id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const user = await response.json();
-  return user;
-
-}
-
 async function fetchMembers (token, group_id) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/groups/${group_id}/members`, {
     method: "GET",
@@ -58,7 +44,6 @@ async function fetchMembers (token, group_id) {
   });
   const data = await response.json();
   return data.members;
-
 }
 
 async function deleteGroup (token, group_id) {
@@ -72,7 +57,6 @@ async function deleteGroup (token, group_id) {
   return await response.json();
 }
 
-
 async function sendJoinRequest (token, group_id) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/groups/${group_id}/join-requests`, {
     method: "POST",
@@ -84,16 +68,17 @@ async function sendJoinRequest (token, group_id) {
   return await response.json();
 }
 
-async function isAdmin (group_id, user_id) {
+function isAdmin (group_id, user_id) {
+  // TODO: 
   return false;
 }
+
 
 
 module.exports = {
   fetchGroups,
   fetchMyGroups,
-  fetchGroupByID,
-  fetchUserByID,
+  fetchGroupById,
   fetchMembers,
   deleteGroup,
   sendJoinRequest,

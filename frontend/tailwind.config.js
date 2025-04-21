@@ -9,11 +9,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'chiti-green': 'var(--chiti-green)',
         'button-green': 'var(--button-green)',
-
+        'chiti-bg': 'var(--chiti-bg)',
         'search-bg': 'var(--search-bg)',
         'search-text': 'var(--search-text)',
         'title-text': 'var(--title-text)',
+        'chiti-text': 'var(--chiti-text)',
 
       },
     },

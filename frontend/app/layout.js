@@ -8,10 +8,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <div className="h-screen">
-        	{ children }
-        </div>
+      <body className="relative min-h-screen bg-gradient-to-t from-[var(--bg-bottom)] via-[var(--bg-mid)] to-[var(--bg-top)] bg-fixed">
+        {children}
       </body>
     </html>
   );

@@ -31,6 +31,7 @@ export default function LoginForm() {
 
       const data = await response.json();
       localStorage.setItem("token", data.token); // Correct localStorage usage
+      localStorage.setItem("user_id", data.id); // Correct localStorage usage
       
       router.push("/home"); // Redirect on success
     } catch (error) {
@@ -38,10 +39,8 @@ export default function LoginForm() {
     }
   };
 
-
 	const label_style = "block text-sm text-search-text font-semibold mt-2";
 	const input_style = "w-full p-2 bg-search-bg mt-1 mb-4 text-search-text border border-gray-300 rounded-md";
-
 
   return (
     <div>
@@ -75,12 +74,14 @@ export default function LoginForm() {
             required
           />
         </div>
-		<div>
-		  <Button
-		    text="Login"
-		    onClick={handleSubmit}
-		  />
-		</div>
+        <div className="flex justify-center mt-9">
+          <Button
+            text="Login"
+            onClick={handleSubmit}
+            modifier="w-48"
+            type="submit"
+          />
+        </div>
    		</form>
     </div>
   );

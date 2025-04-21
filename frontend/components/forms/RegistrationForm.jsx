@@ -3,7 +3,9 @@
 import { useState } from "react";
 import Button from "@/components/ui/Button";
 
+
 export default function  RegisterForm({ onRegisterSuccess })  {
+	const [error, setError] = useState("");
 	const [formData, setFormData] = useState({
 		full_name: "",
 		email: "",
@@ -12,7 +14,6 @@ export default function  RegisterForm({ onRegisterSuccess })  {
 		password: "",
 	});
 
-	const [error, setError] = useState("");
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -128,11 +129,14 @@ export default function  RegisterForm({ onRegisterSuccess })  {
 						required
 					/>
 				</div>
-
-				<Button
-					text="Register"
-					onClick={handleSubmit}
-				/>
+				<div className="flex justify-center mt-9">
+					<Button
+						text="Register"
+						onClick={handleSubmit}
+						modifier="w-48"
+						type="submit"
+					/>
+				</div>
 			</form>
 		</div>
 	);
