@@ -61,11 +61,15 @@ router.post("/:group_id/chat", authenticateUser, gc.postGroupChatMessage);
 ////
 
 // Fetch group cycle info
-router.get("/:group_id/cycle", authenticateUser, gc.getCycleInfo);
+router.get("/:group_id/cycle/all", authenticateUser, gc.getCycleHistory);
+router.get("/:group_id/cycle/active", authenticateUser, gc.getActiveCycleInfo);
+router.get("/:group_id/cycle/new", authenticateUser, gc.getNewCycleInfo);
 // Create a new group cycle
-router.post("/:group_id/cycle", authenticateUser, gc.createGroupCycle);
+router.post("/:group_id/cycle", authenticateUser, authorizeAdmin, gc.createGroupCycle);
 // Start the group cycle
-router.patch("/:group_id/cycle", authenticateUser, gc.startCycle);
+router.patch("/:group_id/cycle/start", authenticateUser, gc.startCycle);
+// Update the group cycle
+router.patch("/:group_id/cycle/update", authenticateUser, gc.updateCycle);
 
 
 ////

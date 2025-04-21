@@ -27,15 +27,40 @@ GroupCycle.init(
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
+    payment_deadline: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 28,
+      },
+    },
+    payout_date: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 28,
+      },
+    },
     status: {
       type: DataTypes.ENUM("inactive", "active", "completed", "cancelled"),
       allowNull: false,
       defaultValue: "inactive",
     },
+    payout_order: {
+      type: DataTypes.JSON,
+      allowNull: true, // Allows storing preset payout order as JSON array
+    },
     cycle_progress: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
+    },
+    length: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 12,
     },
   },
   {

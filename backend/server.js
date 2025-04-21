@@ -14,7 +14,7 @@ app.use(cookieParser()); // Enable parsing cookies
 // CORS Configuration
 const corsOptions = {
   origin: "http://localhost:3000", // Allow requests only from Next.js frontend
-  methods: "GET,POST,PUT,DELETE",
+  methods: "GET,POST,PATCH,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
   credentials: true, // Allow cookies (important for JWT auth)
 };

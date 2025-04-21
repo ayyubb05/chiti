@@ -3,6 +3,7 @@ const sequelize = require("../config/database");
 // Initialize models with Sequelize instance
 const User = require("./User");
 const Group = require("./Group");
+const GroupCycle = require("./GroupCycle");
 const GroupMember = require("./GroupMember");
 const JoinRequest = require("./JoinRequest");
 const Message = require("./Message");
@@ -35,9 +36,10 @@ const models = {
   sequelize,
   User,
   Group,
+  GroupCycle,
+  GroupMember,
   Message,
   JoinRequest,
-  GroupMember,
 };
 
 module.exports = models;

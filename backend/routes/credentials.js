@@ -84,9 +84,10 @@ async function registerUser (req, res) {
   }
 }
 
-async function logoutUser (req, res) {
+async function logoutUser(req, res) {
   res.clearCookie("auth_token", { httpOnly: true, secure: true, sameSite: "Strict" });
-  return res.status(200).json({ message: "Logged out successfully" });
+  // res.set("Clear-Site-Data", '"cache"');
+  return res.status(200).json({ message: "Logged out and cache cleared" });
 }
 
 // Login route

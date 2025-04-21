@@ -40,8 +40,11 @@ const {
 // Import cycle functions
 const {
   startCycle,
-  getCycleInfo,
+  getCycleHistory,
+  getActiveCycleInfo,
+  getNewCycleInfo,
   createGroupCycle,
+  updateCycle,
 } = require("./group/cycle.group");
 
 
@@ -70,8 +73,11 @@ const controller = {
   postGroupChatMessage,
 
   startCycle,
-  getCycleInfo,
+  getCycleHistory,
+  getActiveCycleInfo,
+  getNewCycleInfo,
   createGroupCycle,
+  updateCycle,
 
 };
 

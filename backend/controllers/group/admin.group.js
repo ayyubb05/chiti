@@ -7,47 +7,40 @@ const { Op } = require('sequelize');
 ////
 
 const group_details = [
-  "id",
   "admin_id",
   "name",
   "description",
   "monthly_fee",
-  "payment_deadline",
-  "group_size",
   "visibility",
-  "payout_day",
-  "payout_order",
   "chat_enabled",
   "notification_preferences"
 ];
 
-
 // Create a new group
 async function createGroup(req, res) {
-  const admin_id = req.user.id; // Admin ID is based on the user creating the group
-  const { name, description, monthly_fee, payment_deadline, group_size, visibility, payout_day, payout_order, chat_enabled, notification_preferences } = req.body;
+  const admin_id = req.user.id;
+  const body = { ...req.body, admin_id };
+
+  const groupData = {};
+  for (const field of group_details) {
+    if (field === "visibility") {
+      groupData[field] = body[field] || "private";
+    } else if (field === "chat_enabled") {
+      groupData[field] = body[field] ?? false;
+    } else if (field === "notification_preferences") {
+      groupData[field] = body[field] ?? {};
+    } else {
+      groupData[field] = body[field];
+    }
+  }
 
   try {
-    // Create a new group in the database
-    const newGroup = await Group.create({
-      admin_id, 
-      name, 
-      description, 
-      monthly_fee, 
-      payment_deadline, 
-      group_size, 
-      visibility: visibility || 'private', // Default visibility is private if not provided
-      payout_day, 
-      payout_order, 
-      chat_enabled: chat_enabled || false, // Default chat_enabled to false if not provided
-      notification_preferences: notification_preferences || {}
-    });
+    const newGroup = await Group.create(groupData);
 
-    // Add the user who created the group as a member with the role 'admin'
     await GroupMember.create({
       group_id: newGroup.id,
       user_id: admin_id,
-      role: 'admin'
+      role: "admin"
     });
 
     return res.status(201).json({
@@ -60,31 +53,27 @@ async function createGroup(req, res) {
   }
 }
 
-// Update group details (name, description, etc.)
+// Update group details
 async function updateGroupSettings(req, res) {
   const { group_id } = req.params;
-  const { name, description, monthly_fee, payment_deadline, group_size, visibility, payout_day, payout_order, chat_enabled, notification_preferences } = req.body;
+  const body = req.body;
+
+  const updatedFields = {};
+  for (const field of group_details) {
+    if (field in body) {
+      if (field !== 'admin_id') {
+        updatedFields[field] = body[field];
+      }
+    }
+  }
 
   try {
-    // Ensure the group exists
     const group = await Group.findByPk(group_id);
     if (!group) {
       return res.status(404).json({ error: "Group not found." });
     }
 
-    // Update the group settings
-    await group.update({
-      name,
-      description,
-      monthly_fee,
-      payment_deadline,
-      group_size,
-      visibility,
-      payout_day,
-      payout_order,
-      chat_enabled,
-      notification_preferences
-    });
+    await group.update(updatedFields);
 
     return res.json({ message: "Group details updated successfully.", group });
   } catch (error) {
@@ -92,6 +81,7 @@ async function updateGroupSettings(req, res) {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
 
 async function getActiveJoinRequests(req, res) {
   const admin_id = req.user.id;

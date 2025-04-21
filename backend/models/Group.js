@@ -30,10 +30,6 @@ Group.init(
       allowNull: false,
       defaultValue: "private", // Private by default for added security
     },
-    payout_order: {
-      type: DataTypes.JSON,
-      allowNull: true, // Allows storing preset payout order as JSON array
-    },
     chat_enabled: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
